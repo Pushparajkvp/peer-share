@@ -47,4 +47,4 @@ The following are the screenshots,
 ![](screenshots/filePreview.png)
 
 # License
-This project is licensed under GNU
+This project is licensed under GPL-3.0
