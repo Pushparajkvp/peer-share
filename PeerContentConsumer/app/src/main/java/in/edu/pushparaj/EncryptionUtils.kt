@@ -5,6 +5,9 @@ import java.io.File
 import org.json.JSONArray
 import org.json.JSONObject
 import `in`.edu.pushparaj.model.FileStatusModel
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.Context.MODE_WORLD_READABLE
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import javax.crypto.Cipher
@@ -16,7 +19,7 @@ import kotlin.collections.ArrayList
 
 object EncryptionUtils {
 
-    fun Decrypt(file:File,password: String){
+    fun Decrypt(file:File,password: String,context:Context){
 
         val pbeKeySpec = PBEKeySpec(password.toCharArray())
         val secretKeyFactory = SecretKeyFactory
@@ -32,7 +35,7 @@ object EncryptionUtils {
         val cipher = Cipher.getInstance("PBEwithMD5ANDDES")
         cipher.init(Cipher.DECRYPT_MODE, secretKey, pbeParameterSpec)
 
-        val fos = FileOutputStream(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),file.name+"temp"))
+        val fos = context.openFileOutput(file.name, MODE_PRIVATE);
 
         val `in` = ByteArray(64)
         var read: Int
@@ -55,8 +58,6 @@ object EncryptionUtils {
         fos.flush()
         fos.close()
         val path =Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
-        File(path+"/"+file.name).delete()
-        File(path+"/"+file.name+"temp").renameTo(File(path+"/"+file.name))
     }
 
 

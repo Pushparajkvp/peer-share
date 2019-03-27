@@ -9,7 +9,6 @@ import android.support.v4.app.NotificationCompat
 import `in`.edu.pushparaj.activities.StarPage
 import android.app.NotificationChannel
 import android.os.Build
-import org.ligi.pushparaj.R
 
 
 class IPFSDaemonService : IntentService("IPFSDaemonService") {

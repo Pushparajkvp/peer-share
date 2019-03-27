@@ -14,10 +14,13 @@ import com.squareup.moshi.Moshi
 import io.ipfs.kotlin.IPFS
 import okhttp3.OkHttpClient
 import `in`.edu.pushparaj.EncryptionUtils
-import org.ligi.pushparaj.R
-import `in`.edu.pushparaj.activities.FilePreviewActivity
+import `in`.edu.pushparaj.R
+import `in`.edu.pushparaj.activities.ImagePreviewActivity
+import `in`.edu.pushparaj.activities.TextPreviewActivity
+import `in`.edu.pushparaj.activities.VideoPreviewActivity
 import `in`.edu.pushparaj.dialogs.PaymentDialog
 import `in`.edu.pushparaj.model.FileModel
+import android.widget.Toast
 import java.io.File
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
@@ -61,9 +64,28 @@ class FileListAdapter(val items : ArrayList<FileModel>, val context: Activity) :
                     decryptFile(fileModel.fileName,fileModel.password,position)
                 }
                 4->{
-                    val intent = Intent(context, FilePreviewActivity::class.java)
-                    intent.putExtra("fileName", fileModel.fileName)
-                    context.startActivity(intent)
+                    val fileExtension = getFileExtion(fileModel.fileName)
+                    when(fileExtension){
+                        ".txt",".json" -> {
+                            val intent = Intent(context, TextPreviewActivity::class.java)
+                            intent.putExtra("fileName", fileModel.fileName)
+                            context.startActivity(intent)
+                        }
+                        ".mp4",".avi",".mov",".mkv" -> {
+                            val intent = Intent(context, VideoPreviewActivity::class.java)
+                            intent.putExtra("fileName", fileModel.fileName)
+                            context.startActivity(intent)
+                        }
+                        ".png",".jpg",".jpeg",".bmp" ->{
+                            val intent = Intent(context, ImagePreviewActivity::class.java)
+                            intent.putExtra("fileName", fileModel.fileName)
+                            context.startActivity(intent)
+                        }
+                        else ->{
+                            Toast.makeText(context,"File Format Not Supported!",Toast.LENGTH_LONG).show()
+                        }
+                    }
+
                 }
 
             }
@@ -97,7 +119,7 @@ class FileListAdapter(val items : ArrayList<FileModel>, val context: Activity) :
     fun decryptFile(fileName: String,password:String,position: Int){
         showProgressDialog("Decrypting")
         Thread{
-            EncryptionUtils.Decrypt(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),fileName),password);
+            EncryptionUtils.Decrypt(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),fileName),password,context);
             context.runOnUiThread{
                 changeStatus(position,4)
                 hideProgressDialog()
@@ -130,10 +152,6 @@ class FileListAdapter(val items : ArrayList<FileModel>, val context: Activity) :
     override fun getItemCount(): Int {
         return items.size
     }
-    fun isFileAvailable(fileName:String) : Boolean{
-        var path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath+"/"+fileName;
-        return File(path).exists()
-    }
 
     fun changeStatus(position: Int, status: Int) {
         items[position].status = status
@@ -152,6 +170,10 @@ class FileListAdapter(val items : ArrayList<FileModel>, val context: Activity) :
 
     fun hideProgressDialog(){
         dialog!!.dismiss()
+    }
+
+    fun getFileExtion(fileName:String):String{
+        return fileName.substring(fileName.lastIndexOf("."))
     }
 
 }

@@ -1,5 +1,6 @@
 package `in`.edu.pushparaj.activities
 
+import `in`.edu.pushparaj.*
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,18 +18,12 @@ import com.squareup.moshi.Moshi
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import okhttp3.OkHttpClient
-import `in`.edu.pushparaj.EncryptionUtils
-import `in`.edu.pushparaj.IPFSDaemon
-import `in`.edu.pushparaj.IPFSDaemonService
-import `in`.edu.pushparaj.State
 import org.json.JSONArray
 import org.json.JSONObject
-import org.ligi.pushparaj.*
 import `in`.edu.pushparaj.adapters.FileListAdapter
 import `in`.edu.pushparaj.model.FileModel
 import `in`.edu.pushparaj.model.FileStatusModel
-import org.ligi.pushparaj.activities.onRequestPermissionsResult
-import org.ligi.pushparaj.activities.testWithPermissionCheck
+import android.support.v7.widget.Toolbar
 
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
@@ -50,6 +45,7 @@ class StarPage : AppCompatActivity(){
     var recyclerView : RecyclerView? = null
     var dialog : AlertDialog? = null
 
+    var mToolbar: Toolbar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_star_page)
@@ -62,7 +58,13 @@ class StarPage : AppCompatActivity(){
         builder.setView(R.layout.progress_dialog)
         dialog = builder.create()
 
+        //Toolbar Setup
+        mToolbar = findViewById(R.id.toolbar_id) as Toolbar
 
+        setSupportActionBar(mToolbar)
+        if (supportActionBar != null) {
+            supportActionBar!!.title = getResources().getString(R.string.app_name);
+        }
         if(!ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE).equals(PackageManager.PERMISSION_GRANTED)
            || !ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE).equals(PackageManager.PERMISSION_GRANTED)){
             testWithPermissionCheck()

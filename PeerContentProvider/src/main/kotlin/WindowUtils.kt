@@ -212,7 +212,7 @@ class MainScreen(title: String) : JFrame(), ActionListener {
                 val namedLedgerHash = ipfs.add.string(jsonArray.toString())
                 println(namedHash.Hash)
                 println(ipfs.name.publish(namedLedgerHash.Hash))
-                ipfs.pins.add(namedLedgerHash.Hash);
+                ipfs.pins.add(namedLedgerHash.Hash)
                 LedgerSingleton.LedgerData = jsonArray
                 selectedFile =null
                 openButton.text = "Open"

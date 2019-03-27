@@ -1,5 +1,6 @@
 package `in`.edu.pushparaj.activities
 
+import `in`.edu.pushparaj.R
 import android.Manifest
 import android.app.ProgressDialog
 import android.support.v7.app.AppCompatActivity
@@ -10,9 +11,6 @@ import android.widget.TextView
 import com.squareup.moshi.Moshi
 import io.ipfs.kotlin.IPFS
 import okhttp3.OkHttpClient
-import org.ligi.pushparaj.R
-import org.ligi.pushparaj.activities.downloadFileWithPermissionCheck
-import org.ligi.pushparaj.activities.onRequestPermissionsResult
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File

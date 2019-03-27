@@ -1,12 +1,12 @@
 package `in`.edu.pushparaj.dialogs
 
+import `in`.edu.pushparaj.R
 import android.app.Activity
 import android.app.Dialog
 import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
-import org.ligi.pushparaj.R
 import `in`.edu.pushparaj.activities.StarPage
 
 

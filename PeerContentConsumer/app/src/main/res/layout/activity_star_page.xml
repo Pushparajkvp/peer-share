@@ -4,10 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:keepScreenOn="true"
     android:layout_height="match_parent"
     tools:context=".activities.StarPage">
+    <include layout="@layout/toolbar_layout" android:id="@+id/toolbar_id"/>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/toolbar_id"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
